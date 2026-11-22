@@ -1,5 +1,7 @@
 /* EASTCON — главная страница. Зависимости: GSAP 3.12.5 + ScrollTrigger (подключены в index.html). */
-const IMG={
+/* База для картинок: берётся из адреса самого скрипта (работает и на GitHub Pages, и на Tilda через jsDelivr) */
+const BASE=window.EASTCON_BASE||(document.currentScript?document.currentScript.src.replace(/js\/main\.js.*$/,''):'');
+const IMG0={
  "laser": "assets/img/hero-laser.webp",
  "aqua": "assets/img/hero-water.webp",
  "kitchen": "assets/img/cat-kitchen.webp",
@@ -20,6 +22,7 @@ const IMG={
  "flogo": "assets/img/logo-white.png",
  "mask": "assets/img/hero-mask.webp"
 };
+const IMG=Object.fromEntries(Object.entries(IMG0).map(([k,v])=>[k,BASE+v]));
 const $=s=>document.querySelector(s);
 /* каталог: 9 категорий меню, 6 карточек на главной, список в подвале */
 const C=[['Кухонные системы','Для приготовления и сервировки','kitchen'],['Спальные системы','Комфортный отдых каждый день','sleep'],['Гладильная система','Уход за одеждой и тканями','iron'],['Система очистки воздуха','Чистый воздух дома','air_c'],['Массажные кресла','Расслабление и восстановление','massage'],['Лазерная терапия','Технологии для домашнего применения','laser_c'],['Бюро путешествий','Путешествия и впечатления','travel'],['Прочие продукты','Другие решения EASTCON','other'],['AQUA VITA mini','Система водородной воды','aquamini']];
