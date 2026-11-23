@@ -18,17 +18,18 @@ const IMG0={
  "n3": "assets/img/news-3.webp",
  "pres": "assets/img/presentation.webp",
  "house": "assets/img/about-house.webp",
- "logo": "assets/img/logo.png",
  "flogo": "assets/img/logo-white.png",
  "mask": "assets/img/hero-mask.webp"
 };
 const IMG=Object.fromEntries(Object.entries(IMG0).map(([k,v])=>[k,BASE+v]));
 const $=s=>document.querySelector(s);
+const MURL=window.EASTCON_MASSAGE_URL||'massage-chairs.html';
+const lnk=(t,d)=>t==='Массажные кресла'?MURL:d;
 /* каталог: 9 категорий меню, 6 карточек на главной, список в подвале */
 const C=[['Кухонные системы','Для приготовления и сервировки','kitchen'],['Спальные системы','Комфортный отдых каждый день','sleep'],['Гладильная система','Уход за одеждой и тканями','iron'],['Система очистки воздуха','Чистый воздух дома','air_c'],['Массажные кресла','Расслабление и восстановление','massage'],['Лазерная терапия','Технологии для домашнего применения','laser_c'],['Бюро путешествий','Путешествия и впечатления','travel'],['Прочие продукты','Другие решения EASTCON','other'],['AQUA VITA mini','Система водородной воды','aquamini']];
-$('#cg').innerHTML=C.map(c=>`<a class="cc" href="#catalog"><div class="th"><img src="${IMG[c[2]]}" alt="" loading="lazy"></div><div class="cb"><b>${c[0]}</b><small>${c[1]}</small><i>↗</i></div></a>`).join('');
-$('#cats').innerHTML=[['Кухонные системы','kitchen','i1'],['Лазерная терапия','laser_c','i2'],['Система очистки воздуха','air_c','i3'],['Массажные кресла','massage','i4'],['Система очистки воды','aquamini','i5'],['Спальные системы','sleep','i6']].map(c=>`<a class="cat" href="#"><img src="${IMG[c[1]]}" alt=""><div><svg class="ic"><use href="#${c[2]}"/></svg><span><b>${c[0]}</b><em>→</em></span></div></a>`).join('');
-$('#fp').innerHTML=['Кухонные системы','Спальные системы','Гладильная система','Система очистки воздуха','Массажные кресла','Лазерная терапия','Бюро путешествий','Прочие продукты','AQUA VITA mini'].map(t=>`<li><a href="#catalog">${t}</a></li>`).join('');
+$('#cg').innerHTML=C.map(c=>`<a class="cc" href="${lnk(c[0],'#catalog')}"><div class="th"><img src="${IMG[c[2]]}" alt="" loading="lazy"></div><div class="cb"><b>${c[0]}</b><small>${c[1]}</small><i>↗</i></div></a>`).join('');
+$('#cats').innerHTML=[['Кухонные системы','kitchen','i1'],['Лазерная терапия','laser_c','i2'],['Система очистки воздуха','air_c','i3'],['Массажные кресла','massage','i4'],['Система очистки воды','aquamini','i5'],['Спальные системы','sleep','i6']].map(c=>`<a class="cat" href="${lnk(c[0],'#')}"><img src="${IMG[c[1]]}" alt=""><div><svg class="ic"><use href="#${c[2]}"/></svg><span><b>${c[0]}</b><em>→</em></span></div></a>`).join('');
+$('#fp').innerHTML=['Кухонные системы','Спальные системы','Гладильная система','Система очистки воздуха','Массажные кресла','Лазерная терапия','Бюро путешествий','Прочие продукты','AQUA VITA mini'].map(t=>`<li><a href="${lnk(t,'#catalog')}">${t}</a></li>`).join('');
 /* лента категорий */
 const cs=$('#cats'),cp=$('#cp'),cx=$('#cx');
 const step=()=>{const c=cs.querySelector('.cat');return c.offsetWidth+parseFloat(getComputedStyle(cs).columnGap||16)};
@@ -69,5 +70,9 @@ if(!reduce&&window.gsap&&window.ScrollTrigger){
  // этап 3 (65–100%): появляется текст слева
  copy.forEach((el,i)=>tl.to(el,{autoAlpha:1,y:0,ease:'power2.out',duration:.18},.65+i*.08));
  tl.to({},{duration:.06});
+ /* галерея: горизонтальное «плавающее» движение при прокрутке */
+ const gal=$('#gallery'),gt=gal.querySelector('.gt');
+ gsap.fromTo(gt,{x:()=>innerWidth*.16},{x:()=>-(gt.scrollWidth-innerWidth*.9),ease:'none',scrollTrigger:{trigger:gal,start:'top bottom',end:'bottom top',scrub:.8,invalidateOnRefresh:true}});
+ gsap.fromTo(gal.querySelectorAll('.gc img'),{xPercent:-3},{xPercent:3,ease:'none',scrollTrigger:{trigger:gal,start:'top bottom',end:'bottom top',scrub:.8}});
  addEventListener('load',()=>ScrollTrigger.refresh());
-}else{hero.style.height='auto';hero.style.minHeight='100svh'}
+}else{hero.style.height='auto';hero.style.minHeight='100svh';$('#gallery').classList.add('rm')}
