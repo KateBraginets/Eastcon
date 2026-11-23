@@ -9,7 +9,7 @@ $('#cg').innerHTML=C.map(c=>`<a class="cc" href="${lnk(c[0])}"><div class="th"><
 $('#fp').innerHTML=C.map(c=>c[0]).map(t=>`<li><a href="${lnk(t)}">${t}</a></li>`).join('');
 document.querySelectorAll('.links a[href^="#"],.all,.ft a[href^="#"]').forEach(a=>{const h=a.getAttribute('href');if(/^#(about|news|career|catalog)$/.test(h))a.href=HOME+h});
 document.querySelectorAll('img[src^="assets/"]').forEach(i=>i.src=BASE+i.getAttribute('src'));
-document.querySelectorAll('.th2 button').forEach(b=>b.dataset.s=BASE+b.dataset.s);
+document.querySelectorAll('.th2 button').forEach(b=>{if(!/^(https?:)?\/\//.test(b.dataset.s))b.dataset.s=BASE+b.dataset.s});
 const hd=$('#hd'),tg=$('#tg');
 function setOpen(o){hd.classList.toggle('open',o);tg.setAttribute('aria-expanded',o)}
 tg.onclick=e=>{e.stopPropagation();setOpen(!hd.classList.contains('open'))};
